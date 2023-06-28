@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <title>ElectronicCar</title>
+   <link rel="stylesheet" href="css/basic.css">
+   <link rel="stylesheet" href="css/findcar.css">
+</head>
+      <header class="header-area">
+         <div class="container">
+            <div class="row d_flex">
+               <div class=" v2 v1">
+                  <div class="logo">
+                     <a href="index.html">ElectronicCar</a>
+                  </div>
+               </div>
+               <div class="v6">
+                  <div class="navbar-area">
+                     <nav class="site-navbar">
+                        <ul>
+                           <li><a href="index.html">Home</a></li>
+                           <li><a class="active" href="findcar.html">맞춤 차량 찾기</a></li>
+                           <li><a href="internal combustion engine.html">내연기관 자동차</a></li>
+                           <li><a href="hybrid engine.html">하이브리드 자동차</a></li>
+                           <li><a href="#">친환경 자동차</a>
+                              <ul class="submenu">
+                                 <li><a href="electric.html">전기 자동차</a></li>
+                                 <li><a href="electric.html">수소 자동차</a></li>
+                               </ul>
+                           </li>
+                        </ul>
+                     </nav>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </header><hr>
+         <section>
+         <h1>나에게 맞는 차 찾기</h1>
+         <table id ="mg">
+            <tr>
+                <td><label for="kind">종류:</label></td>
+                <td>
+                    <select id="kind">
+                        <option value="HEV">하이브리드</option>
+                        <option value="PHEV">플러그인-하이브리드</option>
+                        <option value="EV">전기</option>
+                        <option value="Diesel">경유</option>
+                        <option value="Gasoline">휘발유</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="size">사이즈:</label></td>
+                <td>
+                    <select id="size">
+                        <option value="small">소형</option>
+                        <option value="s-medium">준중형</option>
+                        <option value="medium">중형</option>
+                        <option value="large">대형</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="carType">타입:</label></td>
+                <td>
+                    <select id="carType">
+                        <option value="mini">경형</option>
+                        <option value="suv">SUV</option>
+                        <option value="sedan">세단</option>
+                        <option value="rv">RV</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+        <button id="btn2" onclick="getCar()">찾기</button>
+        <div id="result" class ="result"></div>
+        
+        <script>
+            // 변경된 JSON 데이터
+            var carData = [
+                {
+                    "value": "HEV",
+                    "size": "small",
+                    "type": "suv",
+                    "name": "기아 니로 하이브리드",
+                    "image": "images/findcar/nirohev.jpg"
+                },
+                {
+                    "value": "HEV",
+                    "size": "s-medium",
+                    "type": "suv",
+                    "name": "기아 스포티지 하이브리드",
+                    "image": "images/findcar/sprotagehev.jpg"
+                },
+                {
+                    "value": "HEV",
+                    "size": "s-medium",
+                    "type": "suv",
+                    "name": "현대 투싼 하이브리드",
+                    "image": "images/findcar/tucsonhev.jpg"
+                },
+                {
+                    "value": "HEV",
+                    "size": "medium",
+                    "type": "suv",
+                    "name": "기아 쏘렌토 하이브리드",
+                    "image": "images/findcar/sorentohev.jpg"
+                },
+                {
+                    "value": "HEV",
+                    "size": "medium",
+                    "type": "suv",
+                    "name": "현대 싼타페 하이브리드",
+                    "image": "images/findcar/santafe.jpg"
+                },
+                {
+                    "value": "HEV",
+                    "size": "s-medium",
+                    "type": "sedan",
+                    "name": "현대 아반떼 하이브리드",
+                    "image": "images/findcar/avante.jpg"
+                },
+                {
+                    "value": "HEV",
+                    "size": "medium",
+                    "type": "sedan",
+                    "name": "현대 쏘나타 하이브리드",
+                    "image": "images/findcar/sonata.jpg"
+                },
+                {
+                    "value": "HEV",
+                    "size": "medium",
+                    "type": "sedan",
+                    "name": "기아 K5 하이브리드",
+                    "image": "images/findcar/k5hev.jpg"
+                },
+                {
+                    "value": "HEV",
+                    "size": "large",
+                    "type": "sedan",
+                    "name": "기아 K8 하이브리드",
+                    "image": "images/findcar/k8hev.jpg"
+                },
+                {
+                    "value": "HEV",
+                    "size": "large",
+                    "type": "sedan",
+                    "name": "현대 그랜저 하이브리드",
+                    "image": "images/findcar/grandeur.jpg"
+                },
+                {
+                    "value": "PHEV",
+                    "size": "small",
+                    "type": "suv",
+                    "name": "기아 니로 플러그인 하이브리드",
+                    "image": "images/findcar/nirophev.png"
+                },
+                {
+                    "value": "EV",
+                    "size": "small",
+                    "type": "suv",
+                    "name": "현대 코나 EV",
+                    "image": "images/findcar/conaev.jpg"
+                },
+                {
+                    "value": "EV",
+                    "size": "small",
+                    "type": "suv",
+                    "name": "기아 니로 EV",
+                    "image": "images/findcar/niroev.jpg"
+                },
+                {
+                    "value": "EV",
+                    "size": "medium",
+                    "type": "sedan",
+                    "name": "현대 아이오닉6",
+                    "image": "images/findcar/ioniq6.jpg"
+                },
+                {
+                    "value": "EV",
+                    "size": "medium",
+                    "type": "suv",
+                    "name": "현대 아이오닉5",
+                    "image": "images/findcar/ioniq5.jpg"
+                },
+                {
+                    "value": "EV",
+                    "size": "medium",
+                    "type": "suv",
+                    "name": "기아 EV6",
+                    "image": "images/findcar/ev6.jpg"
+                },
+                {
+                    "value": "EV",
+                    "size": "large",
+                    "type": "suv",
+                    "name": "기아 EV9",
+                    "image": "images/findcar/ev9.jpg"
+                },
+                {
+                    "value": "EV",
+                    "size": "medium",
+                    "type": "suv",
+                    "name": "제네시스 GV70 EV",
+                    "image": "images/findcar/gv70ev.jpg"
+                },
+                {
+                    "value": "EV",
+                    "size": "s-medium",
+                    "type": "suv",
+                    "name": "제네시스 GV60",
+                    "image": "images/findcar/gv60.jpg"
+                },
+                {
+                    "value": "EV",
+                    "size": "large",
+                    "type": "sedan",
+                    "name": "제네시스 G80 EV",
+                    "image": "images/findcar/g80ev.jpg"
+                },
+                {
+                    "value": "Diesel",
+                    "size": "s-medium",
+                    "type": "suv",
+                    "name": "기아 스포티지",
+                    "image": "images/findcar/sportage.jpg"
+                },
+                {
+                    "value": "Diesel",
+                    "size": "s-medium",
+                    "type": "suv",
+                    "name": "현대 투싼",
+                    "image": "images/findcar/tucsonhev.jpg"
+                },
+                {
+                    "value": "Diesel",
+                    "size": "medium",
+                    "type": "suv",
+                    "name": "기아 쏘렌토",
+                    "image": "images/findcar/sorento.jpg"
+                },
+                {
+                    "value": "Diesel",
+                    "size": "medium",
+                    "type": "suv",
+                    "name": "현대 싼타페",
+                    "image": "images/findcar/santafe.jpg"
+                },
+                {
+                    "value": "Diesel",
+                    "size": "large",
+                    "type": "suv",
+                    "name": "기아 모하비",
+                    "image": "images/findcar/mohave.jpg"
+                },
+                {
+                    "value": "Diesel",
+                    "size": "large",
+                    "type": "suv",
+                    "name": "현대 팰리세이드",
+                    "image": "images/findcar/palisade.jpg"
+                },
+                {
+                    "value": "Diesel",
+                    "size": "large",
+                    "type": "suv",
+                    "name": "제네시스 GV80",
+                    "image": "images/findcar/gv80.jpg"
+                },
+                {
+                    "value": "Diesel",
+                    "size": "medium",
+                    "type": "suv",
+                    "name": "제네시스 GV70",
+                    "image": "images/findcar/gv70.jpg"
+                },
+                {
+                    "value": "Diesel",
+                    "size": "large",
+                    "type": "rv",
+                    "name": "기아 카니발",
+                    "image": "images/findcar/carnival.jpg"
+                },
+                {
+                    "value": "Gasoline",
+                    "size": "large",
+                    "type": "rv",
+                    "name": "기아 카니발",
+                    "image": "images/findcar/carnival.jpg"
+                },
+                {
+                    "value": "Diesel",
+                    "size": "large",
+                    "type": "rv",
+                    "name": "현대 스타리아",
+                    "image": "images/findcar/staria.jpg"
+                },
+                {
+                    "value": "Gasoline",
+                    "size": "small",
+                    "type": "mini",
+                    "name": "기아 모닝",
+                    "image": "images/findcar/morning.jpg"
+                },
+                {
+                    "value": "Gasoline",
+                    "size": "small",
+                    "type": "mini",
+                    "name": "기아 레이",
+                    "image": "images/findcar/ray.jpg"
+                },
+                {
+                    "value": "Gasoline",
+                    "size": "small",
+                    "type": "suv",
+                    "name": "현대 캐스퍼",
+                    "image": "images/findcar/casper.jpg"
+                },
+                {
+                    "value": "Gasoline",
+                    "size": "s-medium",
+                    "type": "sedan",
+                    "name": "현대 아반떼",
+                    "image": "images/findcar/avante.jpg"
+                },
+                {
+                    "value": "Gasoline",
+                    "size": "s-medium",
+                    "type": "sedan",
+                    "name": "기아 K3",
+                    "image": "images/findcar/k3.jpg"
+                },
+                {
+                    "value": "Gasoline",
+                    "size": "medium",
+                    "type": "sedan",
+                    "name": "기아 K5",
+                    "image": "images/findcar/k5hev.jpg"
+                },
+                {
+                    "value": "Gasoline",
+                    "size": "medium",
+                    "type": "sedan",
+                    "name": "현대 쏘나타",
+                    "image": "images/findcar/sonata.jpg"
+                },
+                {
+                    "value": "Gasoline",
+                    "size": "large",
+                    "type": "sedan",
+                    "name": "현대 그랜저",
+                    "image": "images/findcar/grandeur.jpg"
+                },
+                {
+                    "value": "Gasoline",
+                    "size": "large",
+                    "type": "sedan",
+                    "name": "기아 K8",
+                    "image": "images/findcar/k8.jpg"
+                },
+                {
+                    "value": "Gasoline",
+                    "size": "large",
+                    "type": "sedan",
+                    "name": "제네시스 G80",
+                    "image": "images/findcar/g80.jpg"
+                },
+                {
+                    "value": "Gasoline",
+                    "size": "large",
+                    "type": "sedan",
+                    "name": "제네시스 G90",
+                    "image": "images/findcar/g90.jpg"
+                },
+                {
+                    "value": "Gasoline",
+                    "size": "s-medium",
+                    "type": "suv",
+                    "name": "기아 스포티지",
+                    "image": "images/findcar/sportage.jpg"
+                },
+                {
+                    "value": "Gasoline",
+                    "size": "s-medium",
+                    "type": "suv",
+                    "name": "현대 투싼",
+                    "image": "images/findcar/tucsonhev.jpg"
+
+                },
+                {
+                    "value": "Gasoline",
+                    "size": "small",
+                    "type": "suv",
+                    "name": "현대 코나",
+                    "image": "images/findcar/cona.jpg"
+                },
+                {
+                    "value": "Gasoline",
+                    "size": "small",
+                    "type": "suv",
+                    "name": "기아 셀토스",
+                    "image": "images/findcar/seltos.jpg"
+
+                },
+                {
+                    "value": "Gasoline",
+                    "size": "medium",
+                    "type": "suv",
+                    "name": "기아 쏘렌토",
+                    "image": "images/findcar/sorento.jpg"
+                },
+                {
+                    "value": "Gasoline",
+                    "size": "medium",
+                    "type": "suv",
+                    "name": "현대 싼타페",
+                    "image": "images/findcar/santafe.jpg"
+                },
+                {
+                    "value": "Gasoline",
+                    "size": "medium",
+                    "type": "suv",
+                    "name": "제네시스 GV70",
+                    "image": "images/findcar/gv70.jpg"
+                },
+                {
+                    "value": "Gasoline",
+                    "size": "large",
+                    "type": "suv",
+                    "name": "제네시스 GV80",
+                    "image": "images/findcar/gv80.jpg"
+
+                },
+                {
+                    "value": "Gasoline",
+                    "size": "large",
+                    "type": "suv",
+                    "name": "현대 팰리세이드",
+                    "image": "images/findcar/palisade.jpg"
+                },
+                {
+                    "value": "Gasoline",
+                    "size": "s-medium",
+                    "type": "sedan",
+                    "name": "제네시스 G70",
+                    "image": "images/findcar/g70.jpg"
+                },
+            ];
+            
+            function getCar() {
+                var kind = document.getElementById('kind').value;
+                var size = document.getElementById('size').value;
+                var carType = document.getElementById('carType').value;
+                var result = carData.filter(car => car.value === kind && car.size === size && car.type === carType);
+            
+                var resultDiv = document.getElementById('result');
+                resultDiv.innerHTML = ''; // 이전 결과 지우기
+            
+                if (result.length > 0) {
+                    result.forEach(car => {
+                        var carDiv = document.createElement('div');
+                        var carName = document.createElement('p');
+                        carName.textContent = car.name;
+                        carDiv.appendChild(carName);
+                        resultDiv.appendChild(carDiv);
+                        var carImage = document.createElement('img'); // 이미지 요소 생성
+                        carImage.src = car.image; // 이미지 URL 설정
+                        carDiv.appendChild(carImage); // 이미지 요소를 carDiv에 추가
+
+                    });
+                } else {
+                    resultDiv.innerHTML = '<p>일치하는 차량이 없습니다.</p>';
+                }
+            }
+        </script>
+    </section>
+    <footer>
+      <div class="footer">
+         <div class="container">
+            <div class="row">
+               <div class="v5">
+                  <div class="row">
+                     <div class="v8 v7">
+                        <div class="hedingh3 text_align_left">
+                           <h3>About</h3>
+                           <ul class="menu_footer">
+                            <li><a href="https://www.hyundai.com/kr/ko/e" target="_blank">현대자동차 바로가기</a></li>
+                            <li><a href="https://www.kia.com/kr" target="_blank">기아자동차 바로가기</a></li>
+                            <li><a href="https://www.genesis.com/kr/ko/main.html" target="_blank">제네시스 바로가기</a></li>
+                            <li><a href="www.mercedes-benz.co.kr›passengercars" target="_blank">벤츠 바로가기</a>
+                               <li><a href="www.bmw.co.kr" target="_blank">BMW 바로가기</a></li>
+                            </li>
+                         </ul>
+                        </div>
+                     </div>
+                     <div class="v8 v7">
+                        <div class="hedingh3 text_align_left">
+                           <h3>Blog</h3>
+                           <p>수입차 최고의 패밀리카 SUV 볼보XC60 플러그인 하이브리드 일상에서 빛나다. (더보기)</p>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="v3">
+                  <div class="row">
+                     <div class="v8 v7">
+                        <div class="hedingh3 text_align_left">
+                           <h3>Menu</h3>
+                           <ul class="menu_footer">
+                              <li><a href="index.html">Home</a></li>
+                              <li><a href="internal combustion engine.html">내연기관 자동차</a></li>
+                              <li><a href="hybrid engine.html">하이브리드 자동차</a></li>
+                              <li><a href="#">친환경 자동차</a>
+                                <ul class="submenu">
+                                   <li><a href="electric.html">전기 자동차</a></li>
+                                   <li><a href="electric.html">수소 자동차</a></li>
+                                 </ul>
+                             </li>
+                           </ul>
+                        </div>
+                     </div>
+                     <div class="v8 v7">
+                        <div class="hedingh3  text_align_left">
+                           <h3>Q&A</h3>
+                           <form id="colof" class="form_subscri">
+                              <input class="newsl" placeholder="Email" type="text" name="Email">
+                              <button class="subsci_btn">Send</button>
+                           </form>
+                           <ul class="top_infomation">
+                              <li><i class="fa fa-phone" aria-hidden="true"></i>
+                                 010-1234-5678
+                              </li>
+                              <li><i class="fa fa-envelope" aria-hidden="true"></i>
+                                 <a href="Javascript:void(0)">20175303@hallym.ac.kr</a>
+                              </li>
+                           </ul>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+   </footer>
+</body>
+</html> 
